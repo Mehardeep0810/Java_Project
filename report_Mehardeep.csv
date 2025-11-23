@@ -1,0 +1,6 @@
+Stock,Qty,BuyPrice,CurrentPrice,AlertPrice,Investment,Profit,Loss
+NIFTY,2,12000.00,11545.11,13000.00,24000.00,0.00,909.78
+
+XYZ,2,10.00,9.97,15.00,20.00,0.00,0.06
+
+TOTAL,,,,,24020.00,0.00,909.84
