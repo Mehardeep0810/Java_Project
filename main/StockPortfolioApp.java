@@ -1,8 +1,8 @@
 package main;
 
 import java.util.Scanner;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import model.Portfolio;
 import model.Stock;
 import model.User;
@@ -53,7 +53,7 @@ public class StockPortfolioApp {
         return fileService.login(username, password);
     }
 
-    // Registration flow with regex validation for username and password
+    // Registration flow with regex validation for username, password, email, and phone
     private static void register(Scanner sc, FileService fileService) {
         System.out.print("Choose a username: ");
         String username = sc.nextLine().trim();
@@ -66,14 +66,14 @@ public class StockPortfolioApp {
             return;
         }
 
-        System.out.print("Choose a password (numbers only): ");
+        System.out.print("Choose a password (numbers only, 6 to 12 digits): ");
         String password = sc.nextLine().trim();
 
-        // Password validation: digits only
-        Pattern passPattern = Pattern.compile("^[0-9]+$");
+        // Password validation: digits only, length 6–12
+        Pattern passPattern = Pattern.compile("^[0-9]{6,12}$");
         Matcher passMatcher = passPattern.matcher(password);
         if (!passMatcher.matches()) {
-            System.out.println("Invalid password. Must contain only digits (e.g., 123456).");
+            System.out.println("Invalid password. Must be 6 to 12 digits (e.g., 123456).");
             return;
         }
 
@@ -81,10 +81,24 @@ public class StockPortfolioApp {
         String name = sc.nextLine().trim();
         System.out.print("Address: ");
         String address = sc.nextLine().trim();
-        System.out.print("Phone: ");
+
+        System.out.print("Phone (10 digits): ");
         String phone = sc.nextLine().trim();
+        Pattern phonePattern = Pattern.compile("^[0-9]{10}$");
+        Matcher phoneMatcher = phonePattern.matcher(phone);
+        if (!phoneMatcher.matches()) {
+            System.out.println("Invalid phone number. Must be exactly 10 digits.");
+            return;
+        }
+
         System.out.print("Email: ");
         String email = sc.nextLine().trim();
+        Pattern emailPattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+        Matcher emailMatcher = emailPattern.matcher(email);
+        if (!emailMatcher.matches()) {
+            System.out.println("Invalid email format. Example: user@example.com");
+            return;
+        }
 
         boolean ok = fileService.registerUser(username, password, name, address, phone, email);
         if (ok) System.out.println("Registration successful.");
